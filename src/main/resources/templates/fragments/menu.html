@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+</head>
+
+<body>
+	<nav class="navbar navbar-expand-lg navbar-light bg-light" th:fragment="menu">
+		<a class="navbar-brand" href="/">Articles</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse"
+			data-target="#navbarSupportedContent"
+			aria-controls="navbarSupportedContent" aria-expanded="false"
+			aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav mr-auto">
+			
+				<li class="nav-item"><a class="nav-link" href="/articles">Lister
+					les articles</a></li>
+				<li class="nav-item"><a class="nav-link" href="/categories">Lister
+					les catégories</a></li>
+					
+				<li sec:authorize="hasRole('ADMIN')" class="nav-item">
+					<a class="nav-link" href="/admin/articles/create">Créer article</a>
+				</li>
+				
+				<li sec:authorize="hasRole('ADMIN')" class="nav-item"><a class="nav-link" href="/admin/categories/create">Créer catégorie</a></li>
+				
+				<li sec:authorize="!hasAnyRole('USER', 'ADMIN')" class="nav-item">
+					<a class="nav-link" href="/login">Connexion</a>
+				</li>
+				
+				<li sec:authorize="!hasAnyRole('USER', 'ADMIN')" class="nav-item"><a class="nav-link" href="/register">Inscription</a></li>
+				
+				<li sec:authorize="hasAnyRole('USER', 'ADMIN')" class="nav-item">
+					<a class="nav-link" href="/app/cart">Panier</a>
+				</li>
+				
+				<li sec:authorize="hasAnyRole('USER', 'ADMIN')" class="nav-item"><a class="nav-link" href="/app/orders">Commandes</a></li>
+				<li sec:authorize="isAuthenticated()" class="nav-item"><a class="nav-link" href="/logout">Déconnexion</a></li>
+					
+			</ul>
+
+
+
+			<form class="form-inline my-2 my-lg-0" action="/articles/search" method="get"> 
+				<input class="form-control mr-sm-2" name="search" type="search" placeholder="Recherche" aria-label="Recherche" />
+				<button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+					Chercher un article
+				</button>
+			</form>
+		</div>
+	</nav>
+
+</body>
+</html>
