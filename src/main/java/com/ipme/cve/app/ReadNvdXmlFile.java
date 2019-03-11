@@ -50,7 +50,7 @@ public class ReadNvdXmlFile {
              * Etape 5 : récupération des noeuds
              */
             final NodeList racineNoeuds = racine.getChildNodes();
-            final int nbRacineNoeuds = racineNoeuds.getLength();
+            //final int nbRacineNoeuds = racineNoeuds.getLength();
 
             for (int i = 0; i<20; i++){
                 if(racineNoeuds.item(i).getNodeType() == Node.ELEMENT_NODE) {
