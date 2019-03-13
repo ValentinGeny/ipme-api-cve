@@ -34,7 +34,7 @@ public class CveService {
 	@Autowired
 	private VendorRepository vendorRepository;
 	
-	public Cve createCve(Cve cve, Product product, Vendor vendor) {
+	public Cve createAllCve(Cve cve, Product product, Vendor vendor) {
 		
 		try {
 			//Permet la création de la classe Document

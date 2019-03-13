@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+</head>
+
+<body>
+	<nav class="navbar navbar-expand-lg navbar-light bg-light" th:fragment="menu">
+		<a class="navbar-brand" href="/cve">Cve</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse"
+			data-target="#navbarSupportedContent"
+			aria-controls="navbarSupportedContent" aria-expanded="false"
+			aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav mr-auto">
+			
+				<li class="nav-item"><a class="nav-link" href="/products">Lister
+					les produits</a></li>
+				<li class="nav-item"><a class="nav-link" href="/vendors">Lister
+					les vendeurs</a></li>				
+				<li sec:authorize="!hasAnyRole('USER', 'ADMIN')" class="nav-item">
+					<a class="nav-link" href="/login">Connexion</a>
+				</li>
+				
+				<li sec:authorize="!hasAnyRole('USER', 'ADMIN')" class="nav-item"><a class="nav-link" href="/register">Inscription</a></li>
+				
+				<li sec:authorize="isAuthenticated()" class="nav-item"><a class="nav-link" href="/logout">Déconnexion</a></li>
+					
+			</ul>
+
+
+
+			<form class="form-inline my-2 my-lg-0" action="/cve/search" method="get"> 
+				<input class="form-control mr-sm-2" name="search" type="search" placeholder="Recherche" aria-label="Recherche" />
+				<button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+					Chercher une cve
+				</button>
+			</form>
+		</div>
+	</nav>
+
+</body>
+</html>
