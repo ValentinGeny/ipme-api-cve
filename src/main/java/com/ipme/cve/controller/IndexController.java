@@ -1,4 +1,4 @@
-package com.ipme.cve.web.controller;
+package com.ipme.cve.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

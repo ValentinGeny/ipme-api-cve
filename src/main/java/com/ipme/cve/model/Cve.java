@@ -9,13 +9,18 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @Entity
+@Table
 public class Cve {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
+	
+	@Column
+	private String severity;
 	
 	@Column
 	private String title;
@@ -53,6 +58,16 @@ public class Cve {
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+	
+	
+
+	public String getSeverity() {
+		return severity;
+	}
+
+	public void setSeverity(String severity) {
+		this.severity = severity;
 	}
 
 	public String getVersion() {

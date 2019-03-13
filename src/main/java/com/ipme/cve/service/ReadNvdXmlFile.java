@@ -1,4 +1,4 @@
-package com.ipme.cve.app;
+package com.ipme.cve.service;
 
 import java.io.File;
 import java.io.IOException;
@@ -54,6 +54,7 @@ public class ReadNvdXmlFile {
 
             for (int i = 0; i<20; i++){
                 if(racineNoeuds.item(i).getNodeType() == Node.ELEMENT_NODE) {
+                	//Entre uniquement dans les noeuds "entry" du doc xml
                     if (racineNoeuds.item(i).getNodeName().equals("entry")){
                         final Element vulnerability = (Element) racineNoeuds.item(i);
 

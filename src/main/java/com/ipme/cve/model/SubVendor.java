@@ -12,29 +12,40 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "sub_product")
-public class SubProduct {
-	
+@Table(name = "sub_vendor")
+public class SubVendor {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
-
-	@OneToMany(mappedBy="subProduct", fetch=FetchType.EAGER)
-	private List<Product> products;
 	
-	@OneToOne(mappedBy="subProduct")
+	@OneToMany(mappedBy="subVendor", fetch=FetchType.EAGER)
+	private List<Vendor> vendors;
+	
+	@OneToOne
 	private User user;
 	
-	public SubProduct() {
+	public SubVendor() {
 		
 	}
-		
+
 	public Integer getId() {
 		return id;
 	}
 
+
+
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+
+
+	public List<Vendor> getVendors() {
+		return vendors;
+	}
+
+	public void setVendors(List<Vendor> vendors) {
+		this.vendors = vendors;
 	}
 
 	public User getUser() {
@@ -44,14 +55,7 @@ public class SubProduct {
 	public void setUser(User user) {
 		this.user = user;
 	}
-
-	public List<Product> getProducts() {
-		return products;
-	}
-
-	public void setProducts(List<Product> products) {
-		this.products = products;
-	}
+	
 	
 	
 }

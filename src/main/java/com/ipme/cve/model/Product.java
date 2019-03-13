@@ -6,8 +6,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
+@Table
 public class Product {
 
 		@Id
@@ -22,6 +24,9 @@ public class Product {
 		
 		@ManyToOne
 		private Vendor vendor;
+		
+		@ManyToOne
+		private SubProduct subProduct;
 		
 		public Product() {
 			
@@ -50,6 +55,24 @@ public class Product {
 		public void setVendor(Vendor vendor) {
 			this.vendor = vendor;
 		}
+
+		public Cve getCve() {
+			return cve;
+		}
+
+		public void setCve(Cve cve) {
+			this.cve = cve;
+		}
+
+		public SubProduct getSubProduct() {
+			return subProduct;
+		}
+
+		public void setSubProduct(SubProduct subProduct) {
+			this.subProduct = subProduct;
+		}
+		
+		
 		
 		
 }
