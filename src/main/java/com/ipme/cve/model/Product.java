@@ -16,7 +16,7 @@ public class Product {
 		@GeneratedValue(strategy = GenerationType.AUTO)
 		private Integer id;
 		
-		@Column
+		@Column(unique = true)
 		private String label;
 		
 		@ManyToOne

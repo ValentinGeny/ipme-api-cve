@@ -25,7 +25,7 @@ public class Cve {
 	@Column
 	private String severity;
 	
-	@Column
+	@Column(unique = true)
 	private String title;
 	
 	@Column

@@ -37,9 +37,7 @@ public class CveController {
 	public ModelAndView createAllCve(HttpSession session) {
 		ModelAndView Mav = new ModelAndView("redirect:/");
 		Cve cve = new Cve();
-		Product product = new Product();
-		Vendor vendor = new Vendor();
-		cveService.createAllCve(cve, product, vendor);
+		cveService.createAllCve(cve);
 		
 		return Mav;
 	}
