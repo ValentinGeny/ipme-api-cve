@@ -34,7 +34,7 @@ public class CveService {
 	@Autowired
 	private VendorRepository vendorRepository;
 	
-	public Cve createAllCve(Cve cve, Product product, Vendor vendor) {
+	public void createAllCve(Cve cve, Product product, Vendor vendor) {
 		
 		try {
 			//Permet la création de la classe Document
@@ -53,45 +53,56 @@ public class CveService {
             final NodeList racineNoeuds = racine.getChildNodes();
             final int nbRacineNoeuds = racineNoeuds.getLength();
             
+            System.out.println("Récupération des noeuds");
+            
             //Boucle sur tout les noeuds de la racine
             for (int i = 0; i<nbRacineNoeuds; i++){
                 if(racineNoeuds.item(i).getNodeType() == Node.ELEMENT_NODE) {
                 	//Entre uniquement dans les noeuds "entry" du doc xml
                     if (racineNoeuds.item(i).getNodeName().equals("entry")){
-                    	
+                    	Cve cveCreate = new Cve();
                     	//On conserve uniquement les vulnérabilité grace à la condition "entry"
                         final Element vulnerability = (Element) racineNoeuds.item(i);
                         
                         
                         //On set les attributs cve avec les attributs du noeuds
-                        cve.setSeverity(vulnerability.getAttribute("severity"));
-                        cve.setTitle(vulnerability.getAttribute("name"));
-                        cve.setPublished(vulnerability.getAttribute("published"));
-                        cve.setModified(vulnerability.getAttribute("modified"));
+                        cveCreate.setSeverity(vulnerability.getAttribute("severity"));
+                        cveCreate.setTitle(vulnerability.getAttribute("name"));
+                        cveCreate.setPublished(vulnerability.getAttribute("published"));
+                        cveCreate.setModified(vulnerability.getAttribute("modified"));
                         
                         final Element descript = (Element) vulnerability.getElementsByTagName("descript").item(0);
-                        cve.setDescription(descript.getTextContent());
+                        //cve.setDescription(descript.getTextContent());
+                        
                         
                         //Récupére "prod" soit le product et on boucle sur le nombre de produits concernés
                         final NodeList prods = vulnerability.getElementsByTagName("prod");
                         final int nbProds = prods.getLength();
-
+                        
+                        System.out.println("Récupérations des éléments");
+                        
                         for(int j = 0; j<nbProds; j++) {
+                        	
                             final Element prod = (Element) prods.item(j);
                             product.setLabel(prod.getAttribute("name"));
                             vendor.setLabel(prod.getAttribute("vendor"));
-                            product.setCve(cve);
+                            product.setCve(cveCreate);
                             product.setVendor(vendor);
+                    		System.out.println("Enregistrement des produits");
+                    		System.out.println(product.getLabel());
+                    		System.out.println("Enregistrement des labels");
+                    		System.out.println(vendor.getLabel());
                         }
-                        
-                        
-                		cve = cveRepository.save(cve);
-                		product = productRepository.save(product);
-                		vendor = vendorRepository.save(vendor);
+                        System.out.println(cveCreate.getTitle());
+                        cve = cveRepository.save(cveCreate);
+
+
+
                     }
 
-
+                    
                 }
+                
             }
            
 
@@ -99,7 +110,6 @@ public class CveService {
 			// TODO: handle exception
 		}
 
-		return cve;
 	}
 
 	public List<Cve> findAll() {

@@ -13,10 +13,14 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ipme.cve.model.Cve;
 import com.ipme.cve.model.Product;
 import com.ipme.cve.model.Vendor;
+import com.ipme.cve.repository.CveRepository;
 import com.ipme.cve.service.CveService;
 
 @Controller
 public class CveController {
+	
+	@Autowired
+	private CveRepository cveRepository; 
 	
 	@Autowired
 	private CveService cveService;
@@ -31,11 +35,12 @@ public class CveController {
 	
 	@RequestMapping(value="/createCve", method=RequestMethod.GET)
 	public ModelAndView createAllCve(HttpSession session) {
-		ModelAndView Mav = new ModelAndView("redirect:/cve");
+		ModelAndView Mav = new ModelAndView("redirect:/");
 		Cve cve = new Cve();
 		Product product = new Product();
 		Vendor vendor = new Vendor();
 		cveService.createAllCve(cve, product, vendor);
+		
 		return Mav;
 	}
 

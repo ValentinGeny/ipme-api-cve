@@ -8,8 +8,11 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 
 @Entity
 @Table
@@ -28,7 +31,7 @@ public class Cve {
 	@Column
 	private String version;
 	
-	@Column
+	@Lob
 	private String description;
 	
 	@Column
@@ -42,6 +45,16 @@ public class Cve {
 	
 	public Cve() {
 		
+	}
+	
+	public Cve(Integer id, String severity, String title, String version, String description, String published, String modified) {
+		this.id = id;
+		this.severity = severity;
+		this.title = title;
+		this.version = version;
+		this.description = description;
+		this.published = published;
+		this.modified = modified;
 	}
 
 	public Integer getId() {
