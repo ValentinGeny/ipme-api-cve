@@ -34,11 +34,20 @@ public class CveService {
 	@Autowired
 	private VendorRepository vendorRepository;
 	
+	/**
+	 * Function who get cve by title
+	 * @param title
+	 * @return
+	 */
 	public Cve findByTitle(String title) {
 		return cveRepository.findByTitle(title);
 	}
 	
 	
+	/**
+	 * Function who get XML file and parse it for create object
+	 * @param cve
+	 */
 	public void createAllCve(Cve cve) {
 		
 		try {
@@ -72,6 +81,7 @@ public class CveService {
                         final Element vulnerability = (Element) racineNoeuds.item(i);
                         String title = vulnerability.getAttribute("name");
                         System.out.println("Le titre :"+title);
+                        //Todo
                         /*if (!findByTitle(title).equals(null)) {
                             cveCompare = findByTitle(title);
 						}*/
@@ -129,6 +139,10 @@ public class CveService {
 
 	}
 
+	/**
+	 * Find all CVE
+	 * @return
+	 */
 	public List<Cve> findAll() {
 		List<Cve> cves = cveRepository.findAll();
 		return cves;
