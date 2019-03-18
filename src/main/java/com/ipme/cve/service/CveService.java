@@ -73,19 +73,28 @@ public class CveService {
                 if(racineNoeuds.item(i).getNodeType() == Node.ELEMENT_NODE) {
                 	//Entre uniquement dans les noeuds "entry" du doc xml
                     if (racineNoeuds.item(i).getNodeName().equals("entry")){
+                    	
+                    	//Creation des differents objets
                     	Cve cveCreate= new Cve();
                     	Cve cveCompare = new Cve();
                     	Product productCreate = new Product();
                     	Vendor vendorCreate = new Vendor();
+                    	
                     	//On conserve uniquement les vulnérabilité grace à la condition "entry"
                         final Element vulnerability = (Element) racineNoeuds.item(i);
+                        
+                        //Recuperation des titres dans un String
                         String title = vulnerability.getAttribute("name");
+                        
+                        //test
                         System.out.println("Le titre :"+title);
-                        //Todo
-                        /*if (!findByTitle(title).equals(null)) {
+                        
+                        //
+                        if (!findByTitle(title).equals(null)) {
                             cveCompare = findByTitle(title);
-						}*/
+						}
 
+                        //test
                         System.out.println("Le titre de la cve à comparé :"+cveCompare.getTitle());
                         
                         //On set les attributs cve avec les attributs du noeuds
@@ -94,10 +103,10 @@ public class CveService {
                         cveCreate.setTitle(vulnerability.getAttribute("name"));
                         cveCreate.setPublished(vulnerability.getAttribute("published"));
                         cveCreate.setModified(vulnerability.getAttribute("modified"));
+                        
+                        //test
                         System.out.println("Test");
-                        /* if (!cveCompare.getTitle().equals(cveCreate.getTitle())) {
-                        	cve = cveRepository.save(cveCreate);
-						}*/
+						
                         cve = cveRepository.save(cveCreate);
                         
                         final Element descript = (Element) vulnerability.getElementsByTagName("descript").item(0);
@@ -115,6 +124,7 @@ public class CveService {
                             productCreate.setLabel(prod.getAttribute("name"));
                             vendorCreate.setLabel(prod.getAttribute("vendor"));
                             
+                            //test
                     		System.out.println("Enregistrement des produits");
                     		System.out.println(productCreate.getLabel());
                     		System.out.println("Enregistrement des labels");
