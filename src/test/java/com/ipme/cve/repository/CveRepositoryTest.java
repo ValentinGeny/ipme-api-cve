@@ -39,6 +39,7 @@ public class CveRepositoryTest {
 		System.out.println("Test avant findByTitle ---------");
 		cveFind = cveRepository.findByTitle(title);
 		assertNotNull(cveFind);
+		System.out.println(cveFind.getTitle());
 		System.out.println("Test après findByTitle ---------");
 	}
 

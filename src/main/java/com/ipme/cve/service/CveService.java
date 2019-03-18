@@ -86,54 +86,53 @@ public class CveService {
                         //Recuperation des titres dans un String
                         String title = vulnerability.getAttribute("name");
                         
+                        cveCompare = cveRepository.findByTitle(title);
+                        
                         //test
                         System.out.println("Le titre :"+title);
-                        
-                        //
-                        if (!findByTitle(title).equals(null)) {
-                            cveCompare = findByTitle(title);
-						}
+                        System.out.println("----------");
 
-                        //test
-                        System.out.println("Le titre de la cve à comparé :"+cveCompare.getTitle());
                         
-                        //On set les attributs cve avec les attributs du noeuds
-                        cveCreate.setVersion(document.getXmlVersion());
-                        cveCreate.setSeverity(vulnerability.getAttribute("severity"));
-                        cveCreate.setTitle(vulnerability.getAttribute("name"));
-                        cveCreate.setPublished(vulnerability.getAttribute("published"));
-                        cveCreate.setModified(vulnerability.getAttribute("modified"));
-                        
-                        //test
-                        System.out.println("Test");
-						
-                        cve = cveRepository.save(cveCreate);
-                        
-                        final Element descript = (Element) vulnerability.getElementsByTagName("descript").item(0);
-                        cve.setDescription(descript.getTextContent());
-                        
-                        
-                        //Récupére "prod" soit le product et on boucle sur le nombre de produits concernés
-                        final NodeList prods = vulnerability.getElementsByTagName("prod");
-                        final int nbProds = prods.getLength();
-                        
-                        System.out.println("Récupérations des éléments");
-                        
-                        for(int j = 0; j<nbProds; j++) {
-                            final Element prod = (Element) prods.item(j);
-                            productCreate.setLabel(prod.getAttribute("name"));
-                            vendorCreate.setLabel(prod.getAttribute("vendor"));
+                        if (cveCompare == null) {
+                        	
+                        	System.out.println("--------------");
+                            
+                            //On set les attributs cve avec les attributs du noeuds
+                            cveCreate.setVersion(document.getXmlVersion());
+                            cveCreate.setSeverity(vulnerability.getAttribute("severity"));
+                            cveCreate.setTitle(vulnerability.getAttribute("name"));
+                            cveCreate.setPublished(vulnerability.getAttribute("published"));
+                            cveCreate.setModified(vulnerability.getAttribute("modified"));
                             
                             //test
-                    		System.out.println("Enregistrement des produits");
-                    		System.out.println(productCreate.getLabel());
-                    		System.out.println("Enregistrement des labels");
-                    		System.out.println(vendorCreate.getLabel());
+                            System.out.println("Test");
+    						
+                            cve = cveRepository.save(cveCreate);
+                            
+                            final Element descript = (Element) vulnerability.getElementsByTagName("descript").item(0);
+                            cve.setDescription(descript.getTextContent());
+                            
+                            
+                            //Récupére "prod" soit le product et on boucle sur le nombre de produits concernés
+                            final NodeList prods = vulnerability.getElementsByTagName("prod");
+                            final int nbProds = prods.getLength();
+                            
+                            System.out.println("Récupérations des éléments");
+                            
+                            for(int j = 0; j<nbProds; j++) {
+                                final Element prod = (Element) prods.item(j);
+                                productCreate.setLabel(prod.getAttribute("name"));
+                                vendorCreate.setLabel(prod.getAttribute("vendor"));
+                                
+                                //test
+                        		System.out.println("Enregistrement des produits");
+                        		System.out.println(productCreate.getLabel());
+                        		System.out.println("Enregistrement des labels");
+                        		System.out.println(vendorCreate.getLabel());
 
-                        }
-                        
-
-
+                            }
+						}
+                                         
 
                     }
 
