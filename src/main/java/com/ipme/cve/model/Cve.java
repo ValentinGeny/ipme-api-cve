@@ -1,5 +1,6 @@
 package com.ipme.cve.model;
 
+
 import java.util.List;
 
 import javax.persistence.Column;
@@ -12,14 +13,12 @@ import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
-
 @Entity
 @Table
 public class Cve {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
 	@Column
@@ -41,14 +40,22 @@ public class Cve {
 	private String modified;
 	
 	@OneToMany(mappedBy="cve", fetch=FetchType.EAGER)
-	private List<Product> product;
+	private List<ProductCve> productCves;
+
 	
 	public Cve() {
 		
 	}
 	
-	public Cve(Integer id, String severity, String title, String version, String description, String published, String modified) {
-		this.id = id;
+	public Cve(String severity, String title, String version, String published, String modified) {
+		this.severity = severity;
+		this.title = title;
+		this.version = version;
+		this.published = published;
+		this.modified = modified;
+	}
+	
+	public Cve(String severity, String title, String version, String description, String published, String modified) {
 		this.severity = severity;
 		this.title = title;
 		this.version = version;
@@ -115,13 +122,14 @@ public class Cve {
 		this.modified = modified;
 	}
 
-	public List<Product> getProduct() {
-		return product;
+	public List<ProductCve> getProductCves() {
+		return productCves;
 	}
 
-	public void setProduct(List<Product> product) {
-		this.product = product;
+	public void setProductCves(List<ProductCve> productCves) {
+		this.productCves = productCves;
 	}
+	
 	
 	
 	

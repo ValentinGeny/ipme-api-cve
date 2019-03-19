@@ -1,7 +1,6 @@
 package com.ipme.cve.repository;
 
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 
 import org.junit.After;
 import org.junit.Before;
@@ -16,8 +15,6 @@ import com.ipme.cve.model.Cve;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class CveRepositoryTest {
-	
-	private Cve cveTest;
 	
 	@Autowired
 	private CveRepository cveRepository;

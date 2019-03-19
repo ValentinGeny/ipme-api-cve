@@ -1,11 +1,16 @@
 package com.ipme.cve.model;
 
+import java.util.List;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -13,23 +18,29 @@ import javax.persistence.Table;
 public class Product {
 
 		@Id
-		@GeneratedValue(strategy = GenerationType.AUTO)
+		@GeneratedValue(strategy = GenerationType.IDENTITY)
 		private Integer id;
 		
 		@Column(unique = true)
 		private String label;
 		
-		@ManyToOne
-		private Cve cve;
+		@OneToMany(mappedBy="product", fetch=FetchType.EAGER)
+		private List<ProductCve> productCves;
+		
+		@OneToMany(mappedBy="product", fetch=FetchType.EAGER)
+		private Set<SubProduct> subProducts;
 		
 		@ManyToOne
 		private Vendor vendor;
 		
-		@ManyToOne
-		private SubProduct subProduct;
 		
 		public Product() {
 			
+		}
+
+		public Product(String label, Vendor vendor) {
+			this.label = label;
+			this.vendor = vendor;
 		}
 
 		public Integer getId() {
@@ -56,21 +67,24 @@ public class Product {
 			this.vendor = vendor;
 		}
 
-		public Cve getCve() {
-			return cve;
+
+		public Set<SubProduct> getSubProducts() {
+			return subProducts;
 		}
 
-		public void setCve(Cve cve) {
-			this.cve = cve;
+		public void setSubProducts(Set<SubProduct> subProducts) {
+			this.subProducts = subProducts;
 		}
 
-		public SubProduct getSubProduct() {
-			return subProduct;
+		public List<ProductCve> getProductCves() {
+			return productCves;
 		}
 
-		public void setSubProduct(SubProduct subProduct) {
-			this.subProduct = subProduct;
+		public void setProductCves(List<ProductCve> productCves) {
+			this.productCves = productCves;
 		}
+		
+		
 		
 		
 		

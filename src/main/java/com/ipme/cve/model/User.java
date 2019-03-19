@@ -1,12 +1,14 @@
 package com.ipme.cve.model;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -30,8 +32,15 @@ public class User {
 	@NotNull
 	private String password;
 	
-	@OneToOne(fetch=FetchType.EAGER)
-	private SubProduct subProduct;
+	@OneToMany(mappedBy="user", fetch=FetchType.EAGER)
+	private List<SubProduct> subProducts;
+	
+	@OneToMany
+	private List<SubVendor> subVendors;
+	
+	public User() {
+		
+	}
 	
 	public User(Integer id, String email, String password) {
 		this(email, password);
@@ -81,6 +90,24 @@ public class User {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public List<SubProduct> getSubProducts() {
+		return subProducts;
+	}
+
+	public void setSubProducts(List<SubProduct> subProducts) {
+		this.subProducts = subProducts;
+	}
+
+	public List<SubVendor> getSubVendors() {
+		return subVendors;
+	}
+
+	public void setSubVendors(List<SubVendor> subVendors) {
+		this.subVendors = subVendors;
 	}	
+	
+	
 
 }

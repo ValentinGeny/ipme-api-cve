@@ -1,11 +1,14 @@
 package com.ipme.cve.model;
 
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -13,17 +16,24 @@ import javax.persistence.Table;
 public class Vendor {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
 	@Column(unique = true)
 	private String label;
 	
-	@ManyToOne
-	private SubVendor subVendor;
+	@OneToMany(mappedBy="vendor", fetch=FetchType.EAGER)
+	private Set<Product> products;
+	
+	@OneToMany(mappedBy="vendor", fetch=FetchType.EAGER)
+	private Set<SubVendor> subVendors;
 	
 	public Vendor() {
 		
+	}
+
+	public Vendor(String label) {
+		this.label = label;
 	}
 
 	public Integer getId() {
@@ -42,12 +52,20 @@ public class Vendor {
 		this.label = label;
 	}
 
-	public SubVendor getSubVendor() {
-		return subVendor;
+	public Set<Product> getProducts() {
+		return products;
 	}
 
-	public void setSubVendor(SubVendor subVendor) {
-		this.subVendor = subVendor;
+	public void setProducts(Set<Product> products) {
+		this.products = products;
+	}
+
+	public Set<SubVendor> getSubVendors() {
+		return subVendors;
+	}
+
+	public void setSubVendors(Set<SubVendor> subVendors) {
+		this.subVendors = subVendors;
 	}
 	
 	

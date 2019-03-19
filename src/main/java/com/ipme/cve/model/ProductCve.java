@@ -3,31 +3,38 @@ package com.ipme.cve.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "sub_product")
-public class SubProduct {
+@Table(name="product_cves")
+public class ProductCve {
 	
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
 	@ManyToOne
 	private Product product;
 	
 	@ManyToOne
-	private User user;
+	private Cve cve;
 	
-	public SubProduct() {
+	public ProductCve() {
 		
+	}
+	
+	public ProductCve(Product product, Cve cve) {
+		this.product = product;
+		this.cve = cve;
 	}
 
 	public Integer getId() {
 		return id;
 	}
+
 	public void setId(Integer id) {
 		this.id = id;
 	}
@@ -40,14 +47,13 @@ public class SubProduct {
 		this.product = product;
 	}
 
-	public User getUser() {
-		return user;
+	public Cve getCve() {
+		return cve;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setCve(Cve cve) {
+		this.cve = cve;
 	}
-
-		
+	
 	
 }

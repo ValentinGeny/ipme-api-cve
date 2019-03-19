@@ -1,27 +1,24 @@
 package com.ipme.cve.model;
 
-import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "sub_vendor")
 public class SubVendor {
+	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue
 	private Integer id;
 	
-	@OneToMany(mappedBy="subVendor", fetch=FetchType.EAGER)
-	private List<Vendor> vendors;
+	@ManyToOne
+	private Vendor vendor;
 	
-	@OneToOne
+	@ManyToOne
 	private User user;
 	
 	public SubVendor() {
@@ -32,20 +29,16 @@ public class SubVendor {
 		return id;
 	}
 
-
-
 	public void setId(Integer id) {
 		this.id = id;
 	}
 
-
-
-	public List<Vendor> getVendors() {
-		return vendors;
+	public Vendor getVendor() {
+		return vendor;
 	}
 
-	public void setVendors(List<Vendor> vendors) {
-		this.vendors = vendors;
+	public void setVendor(Vendor vendor) {
+		this.vendor = vendor;
 	}
 
 	public User getUser() {

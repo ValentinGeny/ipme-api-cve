@@ -15,8 +15,10 @@ import org.w3c.dom.NodeList;
 
 import com.ipme.cve.model.Cve;
 import com.ipme.cve.model.Product;
+import com.ipme.cve.model.ProductCve;
 import com.ipme.cve.model.Vendor;
 import com.ipme.cve.repository.CveRepository;
+import com.ipme.cve.repository.ProductCveRepository;
 import com.ipme.cve.repository.ProductRepository;
 import com.ipme.cve.repository.VendorRepository;
 
@@ -34,21 +36,15 @@ public class CveService {
 	@Autowired
 	private VendorRepository vendorRepository;
 	
-	/**
-	 * Function who get cve by title
-	 * @param title
-	 * @return
-	 */
-	public Cve findByTitle(String title) {
-		return cveRepository.findByTitle(title);
-	}
+	@Autowired
+	private ProductCveRepository productCveRepository;
 	
 	
 	/**
 	 * Function who get XML file and parse it for create object
 	 * @param cve
 	 */
-	public void createAllCve(Cve cve) {
+	public void createAllCve(Cve cve, Product product, Vendor vendor, ProductCve productCve) {
 		
 		try {
 			//Permet la création de la classe Document
@@ -56,9 +52,7 @@ public class CveService {
 			
 			//Intègre le fichier Xml dans la classe Document
             final Document document= builder.parse(new File("nvdcve-recent.xml"));
-            
-            
-            
+             
             //Récupère des racines
             final Element racine = document.getDocumentElement();
             
@@ -73,70 +67,52 @@ public class CveService {
                 if(racineNoeuds.item(i).getNodeType() == Node.ELEMENT_NODE) {
                 	//Entre uniquement dans les noeuds "entry" du doc xml
                     if (racineNoeuds.item(i).getNodeName().equals("entry")){
-                    	
-                    	//Creation des differents objets
-                    	Cve cveCreate= new Cve();
-                    	Cve cveCompare = new Cve();
-                    	Product productCreate = new Product();
-                    	Vendor vendorCreate = new Vendor();
-                    	
+
                     	//On conserve uniquement les vulnérabilité grace à la condition "entry"
                         final Element vulnerability = (Element) racineNoeuds.item(i);
                         
                         //Recuperation des titres dans un String
                         String title = vulnerability.getAttribute("name");
                         
-                        cveCompare = cveRepository.findByTitle(title);
-                        
-                        //test
-                        System.out.println("Le titre :"+title);
-                        System.out.println("----------");
-
-                        
-                        if (cveCompare == null) {
+                        //On cherche si la cve n'existe pas
+                        //If true create cve
+                        cve = cveRepository.findByTitle(title);                       
+                        if (cve == null) {
                         	
-                        	System.out.println("--------------");
                             
-                            //On set les attributs cve avec les attributs du noeuds
-                            cveCreate.setVersion(document.getXmlVersion());
-                            cveCreate.setSeverity(vulnerability.getAttribute("severity"));
-                            cveCreate.setTitle(vulnerability.getAttribute("name"));
-                            cveCreate.setPublished(vulnerability.getAttribute("published"));
-                            cveCreate.setModified(vulnerability.getAttribute("modified"));
-                            
-                            //test
-                            System.out.println("Test");
-    						
-                            cve = cveRepository.save(cveCreate);
-                            
+                            //Récupération des attributs du noeuds dans des variables pour créer une cve
+                            String version = document.getXmlVersion();
+                            String severity = vulnerability.getAttribute("severity");
+                            String published = vulnerability.getAttribute("published");
+                            String modified = vulnerability.getAttribute("modified");
                             final Element descript = (Element) vulnerability.getElementsByTagName("descript").item(0);
-                            cve.setDescription(descript.getTextContent());
-                            
-                            
-                            //Récupére "prod" soit le product et on boucle sur le nombre de produits concernés
+                            String description = descript.getTextContent();
+                            if (description==null) {
+								description="Pas de description";
+							}
+                            cve = createCve(title, version, description, published, modified, severity);
+                   
+                            //Récupération du noeud "prod" et on boucle sur le nombre de produits concernés
                             final NodeList prods = vulnerability.getElementsByTagName("prod");
                             final int nbProds = prods.getLength();
                             
-                            System.out.println("Récupérations des éléments");
-                            
                             for(int j = 0; j<nbProds; j++) {
                                 final Element prod = (Element) prods.item(j);
-                                productCreate.setLabel(prod.getAttribute("name"));
-                                vendorCreate.setLabel(prod.getAttribute("vendor"));
+                                String labelProduct = prod.getAttribute("name");
+                                String labelVendor = prod.getAttribute("vendor");
                                 
-                                //test
-                        		System.out.println("Enregistrement des produits");
-                        		System.out.println(productCreate.getLabel());
-                        		System.out.println("Enregistrement des labels");
-                        		System.out.println(vendorCreate.getLabel());
+                                //Vérification et création si !exist
+                                vendor = checkAndCreateVendor(labelVendor, vendor);
+                                product = checkAndCreateProduct(labelProduct, product, vendor);
+                                productCve = createLinkProductCve(product, cve);
 
                             }
-						}
-                                         
+                            
+                            
+						}                   
 
                     }
-
-                    
+          
                 }
                 
             }
@@ -148,6 +124,12 @@ public class CveService {
 
 	}
 
+	private ProductCve createLinkProductCve(Product product, Cve cve) {
+		ProductCve productCve = new ProductCve(product, cve);
+		productCve = productCveRepository.save(productCve);
+		return productCve;
+	}
+
 	/**
 	 * Find all CVE
 	 * @return
@@ -155,6 +137,38 @@ public class CveService {
 	public List<Cve> findAll() {
 		List<Cve> cves = cveRepository.findAll();
 		return cves;
+	}
+	
+	public Cve createCve(String title, String version, String description, String published, String modified, String severity) {
+		Cve cve = new Cve(severity, title, version, description, published, modified);
+		cve = cveRepository.save(cve);
+		return cve;
+	}
+	
+	/**
+	 * Create vendor if not exist
+	 * @param vendor
+	 */
+	public Vendor checkAndCreateVendor(String label, Vendor vendor) {
+		vendor = vendorRepository.findByLabel(label);
+		if (vendor==null) {
+			Vendor vendorCreate = new Vendor(label);
+			vendor = vendorRepository.save(vendorCreate);
+		}
+		return vendor;
+	}
+	
+	/**
+	 * Create product if not exist
+	 * @param product
+	 */
+	public Product checkAndCreateProduct(String label, Product product, Vendor vendor) {
+		product = productRepository.findByLabel(label);
+		if (product==null) {
+			Product productCreate = new Product(label, vendor);
+			product = productRepository.save(productCreate);
+		}
+		return product;
 	}
 	
 
