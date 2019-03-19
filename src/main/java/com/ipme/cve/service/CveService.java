@@ -7,6 +7,8 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -135,8 +137,7 @@ public class CveService {
 	 * @return
 	 */
 	public List<Cve> findAll() {
-		List<Cve> cves = cveRepository.findAll();
-		return cves;
+		return cveRepository.findAll();
 	}
 	
 	public Cve createCve(String title, String version, String description, String published, String modified, String severity) {
@@ -171,5 +172,9 @@ public class CveService {
 		return product;
 	}
 	
+	
+	public Page<Cve> findPage(int page, int pageSize){
+		return cveRepository.findAll(PageRequest.of(page, pageSize));
+	}
 
 }

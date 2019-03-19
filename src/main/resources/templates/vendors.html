@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="/fragments/header :: header">
+	<title>Liste des vendeurs</title>
+</head>
+
+<body>
+	<div th:replace="/fragments/menu :: menu"></div>
+
+	<div class="container">
+		
+		<h1>Liste des vendeurs</h1>
+		<div class="row">
+			<div class="col-sm-3" th:each="vendor : ${vendors}">
+				<div class="card">
+					<h5 class="card-header" th:text="${vendor.label}">
+					  Nom : 
+					</h5>
+					<div class="card-body">
+						<div>Id : <span th:text="${vendor.id}"></span></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+	
+	<div th:replace="/fragments/footer :: footer"></div>
+</body>
+</html>
