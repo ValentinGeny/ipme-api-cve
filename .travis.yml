@@ -7,7 +7,7 @@ services:
  - mysql
 before_install:
  - mysql -e 'CREATE DATABASE cve;'
- - cp application.properties.test application.properties
+ - cp src/test/java/application.properties.test src/main/resources/application.properties
 script:
  - mvn test
 after_success:
