@@ -32,7 +32,7 @@
 					</div>
 				</div>
 				<div>page : <span th:text="${cvePage}"></span></div>
-				<div> - <a th:href="@{/cves/page{article.id}}"></a></div>
+				<div> - <a th:href="@{/cves/page{hasPrevious}}"><span th:text="${hasPrevious}"></span></a></div>
 				<div> - <span th:text="${nbPage}"></span></div>
 		</div>
 		
