@@ -2,8 +2,8 @@ package com.ipme.cve.repository;
 
 
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +18,18 @@ public class VendorRepositoryTest {
 	
 	@Autowired
 	private VendorRepository vendorRepository;
+	
+	@Before
+	public void beforeTest() {
+		Vendor vendor = new Vendor();
+		vendor.setLabel("microsoft");
+		vendorRepository.save(vendor);
+	}
+	
+	public void afterTest() {
+		Vendor vendor = vendorRepository.findByLabel("microsoft");
+		vendorRepository.delete(vendor);
+	}
 	
 	@Test
 	public void findByTitle() {
