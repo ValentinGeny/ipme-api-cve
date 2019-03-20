@@ -21,12 +21,16 @@ public class CveRepositoryTest {
 	
 	@Before
 	public void beforeTest() {
-		System.out.println("Avant test");
+		Cve cve = new Cve();
+		cve.setTitle("CVE-2008-3473");
+		cveRepository.save(cve);
 	}
 	
 	@After
 	public void afterTest() {
-		System.out.println("Après test");
+		Cve cve = new Cve();
+		cve = cveRepository.findByTitle("CVE-2008-3473");
+		cveRepository.delete(cve);
 	}
 	
 	@Test
