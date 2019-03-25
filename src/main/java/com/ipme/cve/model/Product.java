@@ -24,10 +24,10 @@ public class Product {
 		@Column(unique = true)
 		private String label;
 		
-		@OneToMany(mappedBy="product", fetch=FetchType.EAGER)
+		@OneToMany(mappedBy="product", fetch=FetchType.LAZY)
 		private List<ProductCve> productCves;
 		
-		@OneToMany(mappedBy="product", fetch=FetchType.EAGER)
+		@OneToMany(mappedBy="product", fetch=FetchType.LAZY)
 		private Set<SubProduct> subProducts;
 		
 		@ManyToOne

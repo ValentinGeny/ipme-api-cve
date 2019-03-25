@@ -22,10 +22,10 @@ public class Vendor {
 	@Column(unique = true)
 	private String label;
 	
-	@OneToMany(mappedBy="vendor", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="vendor", fetch=FetchType.LAZY)
 	private Set<Product> products;
 	
-	@OneToMany(mappedBy="vendor", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="vendor", fetch=FetchType.LAZY)
 	private Set<SubVendor> subVendors;
 	
 	public Vendor() {
