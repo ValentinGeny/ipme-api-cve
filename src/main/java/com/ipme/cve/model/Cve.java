@@ -39,7 +39,7 @@ public class Cve {
 	@Column
 	private String modified;
 	
-	@OneToMany(mappedBy="cve", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="cve", fetch=FetchType.LAZY)
 	private List<ProductCve> productCves;
 
 	
