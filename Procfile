@@ -1,1 +1,1 @@
-web: java -Dserver.port=$PORT $JAVA_OPTS -jar target/ipme-api-cve.jar
+web: java -Dserver.port=$PORT $JAVA_OPTS -jar target/ipme-api-cve/.mvn/wrapper/maven-wrapper.jar
