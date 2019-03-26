@@ -31,9 +31,9 @@
 						</div>
 					</div>
 				</div>
-				<div>page : <span th:text="${cvePage}"></span></div>
-				<div> - <a th:href="@{/cves/page{hasPrevious}}"><span th:text="${hasPrevious}"></span></a></div>
-				<div> - <span th:text="${nbPage}"></span></div>
+				<div>page : <span th:if="${cvePage!=1}"><a th:href="@{/cves/page(nb=${before})}"><span th:text="${before}"></span></a>  -  </span></div>
+				<div><span th:text="${cvePage}"></span></div>
+				<div> - <a th:href="@{/cves/page(nb=${next})}"><span th:text="${next}"></span></a></div>
 		</div>
 		
 	</div>

@@ -1,7 +1,5 @@
 package com.ipme.cve.controller;
 
-import java.util.List;
-
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,38 +24,29 @@ public class CveController {
 	@Autowired
 	private CveService cveService;
 	
-	@RequestMapping(value="/cves")
+	@RequestMapping(value="/cves", method=RequestMethod.GET)
 	public ModelAndView getCve(HttpSession session) {
 		ModelAndView mav = new ModelAndView("cve/list-cves");
-		List<Cve >cveCounts = cveService.findAll();
-		int count = 0;
-		for (Cve cve : cveCounts) {
-			count++;
-		}
 		int page = 0;
 		int pageSize = 12;
-		int nbPage = count/pageSize;
-		System.out.println(nbPage);
 		Page<Cve> cvePage = cveService.findPage(page, pageSize);
 		Pageable pageable = cvePage.getPageable();
 		mav.addObject("cves", cvePage);
-		mav.addObject("hasPrevious", (pageable.next().getPageNumber()+1));
+		mav.addObject("next", (pageable.next().getPageNumber()+1));
 		mav.addObject("cvePage", (pageable.getPageNumber()+1));
-		mav.addObject("nbPage", nbPage);
 		return mav;
 	}
 	
-	@RequestMapping("/cves/page")
-	public ModelAndView getCvePage(@RequestParam("page") Integer page, @RequestParam("pageSize") Integer pageSize) {
+	@RequestMapping(value="/cves/page")
+	public ModelAndView getCvePage(@RequestParam("nb") Integer page, HttpSession httpSession) {
 		ModelAndView mav = new ModelAndView("cve/list-cves");
-		page = 0;
-		pageSize = 10;
-		Page<Cve> cvePage = cveService.findPage(page, pageSize);
-		
+		int pageSize = 12;
+		Page<Cve> cvePage = cveService.findPage(page-1, pageSize);
+		Pageable pageable = cvePage.getPageable();
+		mav.addObject("before", (pageable.next().getPageNumber()-1));
 		mav.addObject("cves", cvePage);
-		mav.addObject("hasNext", cvePage.hasNext());
-		mav.addObject("hasPrevious", cvePage.hasPrevious());
-		
+		mav.addObject("next", (pageable.next().getPageNumber()+1));
+		mav.addObject("cvePage", (pageable.getPageNumber()+1));
 		return mav;
 	}
 	
