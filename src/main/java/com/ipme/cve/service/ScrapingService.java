@@ -51,16 +51,24 @@ public class ScrapingService {
 				Date date1 = new SimpleDateFormat("M/d/yyyy").parse(dateModified);
 				
 				if (formater.format(date1).equals(formater.format(auj))) {
-					downloadXmlGz();
-					downloadXmlZip();
-					unzip();
+					//Modified cve
+					downloadModifiedCveXmlGz();
+					downloadModifiedCveXmlZip();
+					
+					//Recent cve
+					downloadRecentCveXmlGz();
+					downloadRecentCveXmlZip();
+					
+					//Unzip all
+					unzipModifiedCve();
+					unzipRecentCve();
 				}
 				
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}  
-
+			} 
+			
 		} 
 	
 		catch (IOException e) {
@@ -70,7 +78,7 @@ public class ScrapingService {
 	}
 	
 	
-	public void downloadXmlGz() {
+	public void downloadModifiedCveXmlGz() {
 		
 		try (BufferedInputStream in = new BufferedInputStream(new URL("https://nvd.nist.gov/feeds/xml/cve/1.2/nvdcve-modified.xml.gz").openStream());
 				  FileOutputStream fileOutputStream = new FileOutputStream("src/main/resources/filesXml/nvdcve-modified.xml.gz")) {
@@ -86,7 +94,7 @@ public class ScrapingService {
 		}
 	}
 	
-	public void downloadXmlZip() {
+	public void downloadModifiedCveXmlZip() {
 		
 		try (BufferedInputStream in = new BufferedInputStream(new URL("https://nvd.nist.gov/feeds/xml/cve/1.2/nvdcve-modified.xml.zip").openStream());
 				  FileOutputStream fileOutputStream = new FileOutputStream("src/main/resources/filesXml/nvdcve-modified.xml.zip")) {
@@ -102,8 +110,67 @@ public class ScrapingService {
 		}
 	}
 	
-	public void unzip() throws IOException {
-		String fileZip = "nvdcve-modified.xml.zip";
+	public void downloadRecentCveXmlGz() {
+		
+		try (BufferedInputStream in = new BufferedInputStream(new URL("https://nvd.nist.gov/feeds/xml/cve/1.2/nvdcve-recent.xml.gz").openStream());
+				  FileOutputStream fileOutputStream = new FileOutputStream("src/main/resources/filesXml/nvdcve-recent.xml.gz")) {
+				    byte dataBuffer[] = new byte[1024];
+				    int bytesRead;
+				    while ((bytesRead = in.read(dataBuffer, 0, 1024)) != -1) {
+				        fileOutputStream.write(dataBuffer, 0, bytesRead);
+				    }
+				}
+		
+		catch (IOException e) {
+			// handle exception
+		}
+	}
+	
+	public void downloadRecentCveXmlZip() {
+		
+		try (BufferedInputStream in = new BufferedInputStream(new URL("https://nvd.nist.gov/feeds/xml/cve/1.2/nvdcve-recent.xml.zip").openStream());
+				  FileOutputStream fileOutputStream = new FileOutputStream("src/main/resources/filesXml/nvdcve-recent.xml.zip")) {
+				    byte dataBuffer[] = new byte[1024];
+				    int bytesRead;
+				    while ((bytesRead = in.read(dataBuffer, 0, 1024)) != -1) {
+				        fileOutputStream.write(dataBuffer, 0, bytesRead);
+				    }
+				}
+		
+		catch (IOException e) {
+			// handle exception
+		}
+	}
+	
+	public void unzipModifiedCve() throws IOException {
+		String fileZip = "src/main/resources/filesXml/nvdcve-modified.xml.zip";
+		File destDir = new File("src/main/resources/filesXml/");
+		byte[] buffer = new byte[1024];
+        ZipInputStream zis;
+		try {
+			zis = new ZipInputStream(new FileInputStream(fileZip));
+			ZipEntry zipEntry = zis.getNextEntry();
+	        while (zipEntry != null) {
+	            File newFile = newFile(destDir, zipEntry);
+	            FileOutputStream fos = new FileOutputStream(newFile);
+	            int len;
+	            while ((len = zis.read(buffer)) > 0) {
+	                fos.write(buffer, 0, len);
+	            }
+	            fos.close();
+	            zipEntry = zis.getNextEntry();
+	        }
+	        zis.closeEntry();
+	        zis.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+	}
+	
+	public void unzipRecentCve() throws IOException {
+		String fileZip = "src/main/resources/filesXml/nvdcve-recent.xml.zip";
 		File destDir = new File("src/main/resources/filesXml/");
 		byte[] buffer = new byte[1024];
         ZipInputStream zis;
