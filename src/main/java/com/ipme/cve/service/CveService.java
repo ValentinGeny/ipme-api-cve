@@ -53,7 +53,7 @@ public class CveService {
 			final DocumentBuilder builder = factory.newDocumentBuilder();
 			
 			//Intègre le fichier Xml dans la classe Document
-            final Document document= builder.parse(new File("nvdcve-recent.xml"));
+            final Document document= builder.parse(new File("src/main/resources/filesXml/nvdcve-recent.xml"));
              
             //Récupère des racines
             final Element racine = document.getDocumentElement();
@@ -176,5 +176,5 @@ public class CveService {
 	public Page<Cve> findPage(int page, int pageSize){
 		return cveRepository.findAll(PageRequest.of(page, pageSize));
 	}
-
+	
 }

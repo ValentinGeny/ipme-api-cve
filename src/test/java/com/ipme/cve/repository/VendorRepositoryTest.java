@@ -21,14 +21,11 @@ public class VendorRepositoryTest {
 	
 	@Before
 	public void beforeTest() {
-		Vendor vendor = new Vendor();
-		vendor.setLabel("microsoft");
-		vendorRepository.save(vendor);
+
 	}
 	
 	public void afterTest() {
-		Vendor vendor = vendorRepository.findByLabel("microsoft");
-		vendorRepository.delete(vendor);
+
 	}
 	
 	@Test

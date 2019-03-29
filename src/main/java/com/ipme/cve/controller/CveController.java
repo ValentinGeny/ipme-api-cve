@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.w3c.dom.Document;
 
 import com.ipme.cve.model.Cve;
 import com.ipme.cve.model.Product;
@@ -51,7 +52,7 @@ public class CveController {
 	}
 	
 	@RequestMapping(value="/createCve", method=RequestMethod.GET)
-	public ModelAndView createAllCve(HttpSession session) {
+	public ModelAndView createRecentCve(HttpSession session) {
 		ModelAndView Mav = new ModelAndView("redirect:/");
 		Cve cve = new Cve();
 		Product product = new Product();
@@ -61,5 +62,6 @@ public class CveController {
 		
 		return Mav;
 	}
+	
 
 }
