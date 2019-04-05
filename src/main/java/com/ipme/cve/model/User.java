@@ -1,6 +1,7 @@
 package com.ipme.cve.model;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,13 +9,17 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+
+import com.ipme.cve.configuration.BCryptManagerUtil;
+
 @Entity
 @Table
-public class User {
+public class User{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -37,6 +42,9 @@ public class User {
 	
 	@OneToMany
 	private List<SubVendor> subVendors;
+	
+	@ManyToMany
+	private Set<Role> roles;
 	
 	public User() {
 		
@@ -89,8 +97,10 @@ public class User {
 	}
 
 	public void setPassword(String password) {
-		this.password = password;
-	}
+        if (!password.isEmpty()) {
+            this.password = BCryptManagerUtil.passwordencoder().encode(password);
+        }
+    }
 
 	public List<SubProduct> getSubProducts() {
 		return subProducts;
@@ -106,7 +116,16 @@ public class User {
 
 	public void setSubVendors(List<SubVendor> subVendors) {
 		this.subVendors = subVendors;
-	}	
+	}
+
+	public Set<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
+	
 	
 	
 

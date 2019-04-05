@@ -7,7 +7,7 @@ import com.ipme.cve.model.User;
 import com.ipme.cve.repository.UserRepository;
 
 @Service
-public class UserService {
+public class UserService{
 	
 	@Autowired
 	private UserRepository userRepository;
@@ -15,4 +15,5 @@ public class UserService {
 	public User findUserByEmail(String email) {
 		return userRepository.findByEmail(email);
 	}
+	
 }
