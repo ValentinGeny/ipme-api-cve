@@ -5,6 +5,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -61,6 +62,15 @@ public class CveController {
 		cveService.createAllCve(cve, product, vendor, productCve);
 		
 		return Mav;
+	}
+	
+	@Scheduled(cron="0 0/5 4 * * ?")
+	public void recentCve() {
+		Cve cve = new Cve();
+		Product product = new Product();
+		Vendor vendor = new Vendor();
+		ProductCve productCve = new ProductCve();
+		cveService.createAllCve(cve, product, vendor, productCve);
 	}
 	
 

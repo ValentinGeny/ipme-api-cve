@@ -15,6 +15,11 @@
 	
 	<packaging>jar</packaging>
 
+	<properties>
+		<java.version>1.8</java.version>
+		<start-class>com.ipme.cve.IpmeApiCveApplication</start-class>
+	</properties>
+
 	<dependencies>
 		<!-- Exclude Spring Boot's Default Logging -->
 		<!-- <dependency>
