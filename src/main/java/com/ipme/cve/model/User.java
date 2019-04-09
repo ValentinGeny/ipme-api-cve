@@ -1,5 +1,6 @@
 package com.ipme.cve.model;
 
+
 import java.util.List;
 import java.util.Set;
 
@@ -12,10 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
-
-
-import com.ipme.cve.configuration.BCryptManagerUtil;
 
 @Entity
 @Table
@@ -31,11 +30,17 @@ public class User{
 	@Column
 	private String lastName;
 	
+	@Column(unique=true)
+	private String username;
+	
 	@Column(unique = true)
 	private String email;
 	
 	@NotNull
 	private String password;
+	
+	@Transient
+    private String passwordConfirm;
 	
 	@OneToMany(mappedBy="user", fetch=FetchType.EAGER)
 	private List<SubProduct> subProducts;
@@ -92,15 +97,21 @@ public class User{
 		this.email = email;
 	}
 
-	public String getPassword() {
-		return password;
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+	
+	public String getPasswordConfirm() {
+	        return passwordConfirm;
 	}
 
-	public void setPassword(String password) {
-        if (!password.isEmpty()) {
-            this.password = BCryptManagerUtil.passwordencoder().encode(password);
-        }
-    }
+	public void setPasswordConfirm(String passwordConfirm) {
+	        this.passwordConfirm = passwordConfirm;
+	}
 
 	public List<SubProduct> getSubProducts() {
 		return subProducts;
@@ -125,6 +136,14 @@ public class User{
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
+	
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 	
 	
 	

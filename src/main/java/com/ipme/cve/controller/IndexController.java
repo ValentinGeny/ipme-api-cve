@@ -25,13 +25,13 @@ public class IndexController {
 	
 	@Autowired
 	private UserRepository userRepository;
-	
-	@RequestMapping("/")
+
+	@RequestMapping("/home")
 	@ResponseBody
 	public ModelAndView index() {
 		return new ModelAndView("index");
 	}
-	
+	/*
 	@RequestMapping(value="/login", method = RequestMethod.GET)
 	public ModelAndView login(){
 		ModelAndView modelAndView = new ModelAndView();
@@ -39,30 +39,7 @@ public class IndexController {
 		return modelAndView;
 	}
 	
-	@RequestMapping(value="/login", method = RequestMethod.POST)
-	public ModelAndView getLogin(@RequestParam("email") String email, @RequestParam("password") String password, BindingResult bindingResult) {
-		ModelAndView mav = new ModelAndView();
-		User checkUser = userService.findUserByEmail(email);
-		String psswd = BCryptManagerUtil.passwordencoder().encode(password);
-		if (checkUser!=null) {
-			if (psswd.equals(checkUser.getPassword())) {
-				System.out.println("Mdp check");
-				mav.setViewName("index");
-			}
-			else {
-				bindingResult.rejectValue("email", "Error login");
-			}
-			
-			if (bindingResult.hasErrors()) {
-				mav.setViewName("login");
-			}
-		}
-		
-		return mav;
-	}
-	
-	
-	
+
 	@RequestMapping(value="/register", method = RequestMethod.GET)
 	public ModelAndView showRegister(){
 		ModelAndView modelAndView = new ModelAndView();
@@ -76,7 +53,7 @@ public class IndexController {
 	public ModelAndView register(@Valid @ModelAttribute("user") User user, BindingResult bindingResult) {
 		ModelAndView modelAndView = new ModelAndView();
 		
-		User userExists = userService.findUserByEmail(user.getEmail());
+		User userExists = userService.findByEmail(user.getEmail());
 		
 		if (userExists != null) {
 			bindingResult
@@ -96,6 +73,6 @@ public class IndexController {
 		
 		return modelAndView;
 	}
-	
+	*/
 	
 }
