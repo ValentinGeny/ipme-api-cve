@@ -64,6 +64,7 @@ public class UserController {
 			securityService.autoLogin(userForm.getUsername(), userForm.getPasswordConfirm());
 			System.out.println("création sucess");
 			modelAndView.addObject("successMessage", "Votre compte a bien été créé");
+			modelAndView.addObject("user", userForm);
 			modelAndView.setViewName("index");
 		}
 

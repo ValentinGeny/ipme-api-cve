@@ -19,15 +19,8 @@
 						  Nom : 
 						</h5>
 						<div class="card-body">
-							<div>Id : <span th:text="${cve.id}"></span></div>
-							
-							
-							<div sec:authorize="hasRole('ADMIN')">
-								<form action="/admin/cve/delete" method="post">
-									<input type="hidden" name="id" th:value="${cve.id}" />
-									<button class="btn" type="submit">Supprimer</button>
-								</form>
-							</div>
+							<div>Publié le : <span th:text="${cve.published}"></span></div>
+							<div>Modifier le : <span th:text="${cve.published}"></span></div>
 						</div>
 					</div>
 				</div>
