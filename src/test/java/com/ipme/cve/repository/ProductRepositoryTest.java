@@ -1,5 +1,5 @@
-package com.ipme.cve.repository;
+/**package com.ipme.cve.repository;
 
 public class ProductRepositoryTest {
 
-}
+}*/

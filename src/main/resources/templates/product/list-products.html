@@ -11,7 +11,7 @@
 
 	<div class="container">
 		
-		<h1>Liste des produits</h1>
+		<h1>Liste des logiciels</h1>
 		<div class="row">
 				<div class="col-sm-3" th:each="product : ${products}">
 					<div class="card">
@@ -22,10 +22,10 @@
 							<div>Id : <span th:text="${product.id}"></span></div>
 							
 							
-							<div sec:authorize="hasRole('ADMIN')">
-								<form action="/admin/cve/delete" method="post">
+							<div sec:authorize="hasRole('ROLE_USER')">
+								<form action="/admin/cve/sub" method="post">
 									<input type="hidden" name="id" th:value="${product.id}" />
-									<button class="btn" type="submit">Supprimer</button>
+									<button class="btn" type="submit">S'abonner</button>
 								</form>
 							</div>
 						</div>

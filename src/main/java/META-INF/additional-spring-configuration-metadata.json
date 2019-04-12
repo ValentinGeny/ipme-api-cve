@@ -1,0 +1,5 @@
+{"properties": [{
+  "name": "@Value(\"${DB_URL}\")",
+  "type": "java.lang.String",
+  "description": "A description for '@Value(\"${DB_URL}\")'"
+}]}

@@ -2,7 +2,6 @@ package com.ipme.cve.model;
 
 import java.util.Set;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,11 +14,10 @@ import javax.persistence.Table;
 public class Role {
 	
 	@Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
-	@Column(name="role")
-	private String role;
+	private String name;
 	
 	@ManyToMany(mappedBy="roles")
 	private Set<User> user;
@@ -30,11 +28,11 @@ public class Role {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getRole() {
-		return role;
+	public String getName() {
+		return name;
 	}
-	public void setRole(String role) {
-		this.role = role;
+	public void setRole(String name) {
+		this.name = name;
 	}
 	
 	
