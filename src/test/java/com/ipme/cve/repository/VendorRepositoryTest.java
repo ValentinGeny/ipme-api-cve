@@ -1,3 +1,4 @@
+/**
 package com.ipme.cve.repository;
 
 
@@ -15,7 +16,7 @@ import com.ipme.cve.model.Vendor;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class VendorRepositoryTest {
-	
+
 	@Autowired
 	private VendorRepository vendorRepository;
 	
@@ -37,4 +38,4 @@ public class VendorRepositoryTest {
 		assertNotNull(vendor);
 		System.out.println("Test après label");
 	}
-}
+}*/
